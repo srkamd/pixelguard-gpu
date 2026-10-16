@@ -1,0 +1,64 @@
+name: Build Android APK & AAB Bundle
+
+on:
+  workflow_dispatch: # Allows manual 1-click trigger from GitHub web UI
+  push:
+    branches:
+      - main
+    paths:
+      - 'mobile_app/**'
+      - '.github/workflows/build_apk.yml'
+
+jobs:
+  build:
+    name: Build Mobile Release Packages
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.3'
+          channel: 'stable'
+          cache: true
+
+      - name: Verify Flutter Installation
+        run: flutter --version
+
+      - name: Get Dependencies
+        run: |
+          cd mobile_app
+          flutter pub get
+
+      - name: Build Android APK (For Direct Phone Testing)
+        run: |
+          cd mobile_app
+          flutter build apk --release --no-tree-shake-icons
+
+      - name: Build Android App Bundle (For Google Play Store)
+        run: |
+          cd mobile_app
+          flutter build appbundle --release --no-tree-shake-icons
+
+      - name: Upload APK Artifact (Direct Phone Install)
+        uses: actions/upload-artifact@v4
+        with:
+          name: PixelGuard-Release-APK
+          path: mobile_app/build/app/outputs/flutter-apk/app-release.apk
+          retention-days: 30
+
+      - name: Upload AAB Artifact (Google Play Console Bundle)
+        uses: actions/upload-artifact@v4
+        with:
+          name: PixelGuard-GooglePlay-AAB
+          path: mobile_app/build/app/outputs/bundle/release/app-release.aab
+          retention-days: 30
