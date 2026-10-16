@@ -172,6 +172,39 @@ This calibrated mathematical filter solved the biggest problem in digital receip
 
 ---
 
+## 🎯 Why Were These Specific Technologies Chosen? (Design Rationale)
+
+In digital document forensics, traditional single-method tools fail because scammers attack documents in different ways:
+* **Why not simple OCR (Text Recognition)?** OCR only reads letters; it cannot determine whether an amount was rendered by an authentic mobile banking app or typed in Photoshop.
+* **Why not simple Canny Edge Detection?** Edge detectors get confused by natural WhatsApp compression ringing, mistakenly flagging genuine text characters as fraudulent pasted patches.
+
+To overcome these limitations, PixelGuard implements a **Multi-Domain Defense-in-Depth Strategy**:
+
+| Tampering Attack Vector | Detection Layer | Why This Technology Was Chosen |
+| :--- | :--- | :--- |
+| **Spliced Amounts:** Cutting a number from another receipt and pasting it | **SRM Conv2D Steganography** | Even if the background color matches perfectly, the underlying sensor micro-noise is discontinuous. |
+| **Altered Templates & Fonts:** Typing fake numbers in Word or Paint | **MobileNetV3 Deep CNN** | Identifies subtle anomalies in font thickness, typography kerning, line height, and margin balance. |
+| **AI DeepFakes & Diffusion:** Synthetic receipts created via DALL-E or GANs | **2D Fast Fourier Transform (FFT)** | Exposes high-frequency grid artifacts and checkerboard spectral harmonics invisible in spatial pixels. |
+| **Graphic Software Edits:** Modifying receipts in Photoshop, Canva, or InShot | **Binary Metadata Scanner** | Detects raw application signatures and editing software markers embedded in the file bytes within 1ms. |
+
+---
+
+## 💻 Technical Implementation: Libraries, Models & Code Mapping
+
+All forensic modules are implemented in `app.py`. Below is the exact mapping of Python libraries, pretrained neural networks, and PyTorch classes used to activate each capability:
+
+| Forensic Feature | Python Library | AI Model / PyTorch Class | Code Implementation in `app.py` |
+| :--- | :--- | :--- | :--- |
+| **Micro-Noise Steganography** | `torch`, `torch.nn.functional` | Custom `SRMConvLayer(nn.Module)` | Uses `F.conv2d` with 3 fixed forensic kernels ($1^{\text{st}}$ order gradient, $2^{\text{nd}}$ order cross-Laplacian, $5\times5$ SRM filter) to compute local noise variance. |
+| **Deep Visual Layout** | `torchvision.models` | `models.mobilenet_v3_small` (Pretrained Weights) | Uses `.features` backbone followed by `nn.AdaptiveAvgPool2d(1)` to produce a 576-D semantic embedding. |
+| **Frequency Wave Analysis** | `torch.fft` | Custom `SpectralFFTLayer(nn.Module)` | Computes 2D Fast Fourier Transform via `torch.fft.fft2` + `torch.fft.fftshift`, calculating 64-D spectral log-magnitude profiles. |
+| **Contour Geometry Filter** | `opencv-python-headless`, `numpy` | Custom Mathematical Geometry Engine | Evaluates candidate seams using `cv2.Canny`, `cv2.findContours`, and `cv2.convexHull` ($\text{Solidity} \ge 0.52, \text{Extent} \ge 0.42$). |
+| **Binary Metadata Scanner** | Built-in Python `io.BytesIO` | In-Memory Byte-Stream Parser | Scans raw file byte buffers directly for ASCII software headers (`photoshop`, `canva`, `picsart`, `gimp`, `inshot`) in < 1ms without image decompression. |
+| **Tensor Core GPU Acceleration** | `torch.cuda` | `DeviceManager` Singleton | Detects NVIDIA RTX 3070 Ampere cores, routing all PyTorch tensors to `cuda:0` for sub-35ms forward inference with seamless CPU fallback. |
+| **Web Server & UI** | `fastapi`, `uvicorn` | FastAPI Async REST Engine | Serves single-page responsive Cyber SOC web interface on `port 8000` with instant drag-and-drop and JSON/MD export endpoints. |
+
+---
+
 ## 📊 Empirical Dataset Benchmark Results (100% Accuracy)
 
 Evaluated against the user's authentic test corpus (`SAMPLE DATASET FOR IMAGE DETECTION`):
