@@ -5,13 +5,12 @@ plugins {
 }
 
 android {
-    namespace "com.srkamd.pixelguard"
-    compileSdkVersion 34
-    ndkVersion flutter.ndkVersion
+    namespace = "com.srkamd.pixelguard"
+    compileSdk = 34
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 
     kotlinOptions {
@@ -23,30 +22,22 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.srkamd.pixelguard"
-        minSdkVersion 21
-        targetSdkVersion 34
-        versionCode flutter.versionCode
-        versionName flutter.versionName
-
-        ndk {
-            abiFilters "arm64-v8a", "armeabi-v7a", "x86_64"
-        }
+        applicationId = "com.srkamd.pixelguard"
+        minSdk = 21
+        targetSdk = 34
+        versionCode = flutter.versionCode
+        versionName = flutter.versionName
     }
 
     buildTypes {
         release {
-            signingConfig signingConfigs.debug
-            minifyEnabled false
-            shrinkResources false
+            signingConfig = signingConfigs.debug
+            minifyEnabled = false
+            shrinkResources = false
         }
     }
 }
 
 flutter {
-    source '../..'
-}
-
-dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    source = "../.."
 }
