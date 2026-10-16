@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">PixelGuard</string>
+    <string name="subtitle">Document &amp; Receipt Integrity Inspector</string>
+    <string name="privacy_banner">100% On-Device &amp; Private — Zero Cloud Uploads</string>
+    <string name="scan_camera">Scan Document (Camera)</string>
+    <string name="pick_gallery">Upload from Gallery</string>
+    <string name="risk_score_label">Integrity Confidence</string>
+    <string name="scan_another">Scan Another Document</string>
+</resources>

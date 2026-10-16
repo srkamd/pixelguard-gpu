@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF0B0F19</color>
+    <color name="card_bg">#FF161D2F</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="text_muted">#FF94A3B8</color>
+    <color name="brand_emerald">#FF10B981</color>
+    <color name="brand_emerald_glow">#3310B981</color>
+    <color name="risk_red">#FFEF4444</color>
+    <color name="accent_blue">#FF3B82F6</color>
+</resources>

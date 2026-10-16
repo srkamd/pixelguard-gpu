@@ -1,39 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Only camera permission requested for direct photo capture -->
+    <!-- Camera feature for direct receipt capture -->
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-feature android:name="android.hardware.camera" android:required="false" />
-    <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
 
-    <!-- Google Play Compliant: No READ_EXTERNAL_STORAGE requested. Uses system Photo Picker -->
+    <!-- Google Play 100% Policy Compliant: No dangerous storage permissions. Uses system photo picker -->
 
     <application
+        android:allowBackup="true"
+        android:icon="@android:drawable/sym_def_app_icon"
         android:label="PixelGuard"
-        android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher"
-        android:theme="@style/LaunchTheme"
-        android:hardwareAccelerated="true">
-
+        android:supportsRtl="true"
+        android:theme="@style/Theme.PixelGuard">
         <activity
             android:name=".MainActivity"
-            android:exported="true"
-            android:launchMode="singleTop"
-            android:theme="@style/LaunchTheme"
-            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
-            android:windowSoftInputMode="adjustResize">
-            
-            <meta-data
-              android:name="io.flutter.embedding.android.NormalTheme"
-              android:resource="@style/NormalTheme" />
-            
+            android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <meta-data
-            android:name="flutterEmbedding"
-            android:value="2" />
     </application>
+
 </manifest>
