@@ -34,6 +34,23 @@ jobs:
       - name: Verify Flutter Installation
         run: flutter --version
 
+      - name: Generate Complete Android Scaffolding & Wrapper
+        run: |
+          cd mobile_app
+          # Backup our custom MethodChannel MainActivity and Manifest
+          mkdir -p /tmp/pg_backup
+          cp android/app/src/main/kotlin/com/srkamd/pixelguard/MainActivity.kt /tmp/pg_backup/MainActivity.kt || true
+          
+          # Auto-generate Gradle wrapper jar, icons, styles, drawables
+          flutter create --platforms=android --org com.srkamd .
+          
+          # Restore our custom MethodChannel Kotlin code
+          mkdir -p android/app/src/main/kotlin/com/srkamd/pixelguard
+          cp /tmp/pg_backup/MainActivity.kt android/app/src/main/kotlin/com/srkamd/pixelguard/MainActivity.kt
+          
+          # Ensure gradlew has executable permission
+          chmod +x android/gradlew
+
       - name: Get Dependencies
         run: |
           cd mobile_app
